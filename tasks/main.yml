@@ -1,0 +1,42 @@
+---
+- name: Create GoDaddy DNS record
+  uri:
+    # url: "https://{{ godaddy_api_domain }}/v1/domains/{{ godaddy_domain }}/records/{{ godaddy_record_type }}/{{ godaddy_record_name }}"
+    url: "https://{{ godaddy_api_domain }}/v1/domains/{{ godaddy_domain }}/records"
+    method: PUT
+    headers:
+      Authorization: "sso-key {{ godaddy_api_key }}:{{ godaddy_api_secret }}"
+      Content-Type: "application/json"
+    body_format: json
+    body:
+      - data: "{{ godaddy_record_value }}"
+        ttl: "{{ godaddy_ttl | int | default(3600) }}"
+        name: "{{ godaddy_record_name }}"
+        type: "{{ godaddy_record_type }}"
+    status_code: 200
+  register: godaddy_result
+
+- name: Display result
+  debug:
+    msg: "DNS record {{ record_name }}.{{ godaddy_domain }} created successfully"
+  when: godaddy_result.status == 200
+
+- name: Handle API errors
+  fail:
+    msg: "Failed to create DNS record: {{ godaddy_result.msg | default('Unknown error') }}"
+  when: godaddy_result.status != 200
+
+- name: Verify DNS record creation (optional)
+  uri:
+    url: "https://{{ godaddy_api_domain }}/v1/domains/{{ godaddy_domain }}/records/{{ godaddy_record_type }}/{{ godaddy_record_name }}"
+    method: GET
+    headers:
+      Authorization: "sso-key {{ godaddy_api_key }}:{{ godaddy_api_secret }}"
+    status_code: 200
+  register: verify_result
+  when: verify_dns_record | default(false)
+
+- name: Show verification result
+  debug:
+    var: verify_result.json
+  when: verify_dns_record | default(false) and verify_result.status == 200

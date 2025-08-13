@@ -1,0 +1,20 @@
+# ansible-role-godaddy/defaults/main.yml
+
+# Default variables for the godaddy role
+# These variables can be overridden by users in their playbooks or inventory files
+
+godaddy_api_domain: "api.godaddy.com" # OR for OTE use "api.ote-godaddy.com"
+godaddy_api_key: ""
+godaddy_api_secret: ""
+godaddy_domain: ""
+godaddy_record_type: "A"
+godaddy_record_name: ""
+godaddy_record_value: ""
+godaddy_ttl: 600
+godaddy_record_data: |
+  {
+    "data": "{{ godaddy_record_value }}",
+    "name": "{{ godaddy_record_name }}",
+    "type": "{{ godaddy_record_type }}",
+    "ttl": "{{ godaddy_ttl }}",
+  }

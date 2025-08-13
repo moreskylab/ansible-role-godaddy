@@ -1,0 +1,12 @@
+# requirements.yml
+---
+roles:
+  - name: geerlingguy.apache
+    src: https://github.com/geerlingguy/ansible-role-apache.git
+    version: 3.0.0
+  - name: geerlingguy.php
+    src: https://github.com/geerlingguy/ansible-role-php.git
+    version: 3.0.0
+collections:
+  - community.general
+  - ansible.builtin

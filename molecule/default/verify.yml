@@ -1,0 +1,39 @@
+# verify.yml
+
+---
+- name: Verify role functionality
+  hosts: all
+  tasks:
+    - name: Check if the service is running
+      ansible.builtin.systemd:
+        name: your_service_name
+        state: started
+      register: service_status
+
+    - name: Assert that the service is running
+      ansible.builtin.assert:
+        that:
+          - service_status is succeeded
+        fail_msg: "The service is not running as expected."
+
+    - name: Verify configuration file exists
+      ansible.builtin.stat:
+        path: /path/to/your/configuration/file
+      register: config_file
+
+    - name: Assert that the configuration file exists
+      ansible.builtin.assert:
+        that:
+          - config_file.stat.exists
+        fail_msg: "The configuration file does not exist."
+
+    - name: Check if the expected port is open
+      ansible.builtin.command: "ss -tuln | grep ':your_port'"
+      register: port_check
+      ignore_errors: yes
+
+    - name: Assert that the expected port is open
+      ansible.builtin.assert:
+        that:
+          - port_check.rc == 0
+        fail_msg: "The expected port is not open."

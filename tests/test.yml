@@ -1,0 +1,30 @@
+# This file contains additional tests for the role, ensuring that it meets the expected outcomes.
+
+- name: Test GoDaddy role
+  hosts: all
+  tasks:
+    - name: Ensure the service is running
+      service:
+        name: your_service_name
+        state: started
+
+    - name: Check if the configuration file is present
+      stat:
+        path: /path/to/your/configuration/file
+      register: config_file
+
+    - name: Assert that the configuration file exists
+      assert:
+        that:
+          - config_file.stat.exists
+        fail_msg: "Configuration file does not exist."
+
+    - name: Validate the service is enabled
+      service_facts:
+      register: service_facts
+
+    - name: Assert that the service is enabled
+      assert:
+        that:
+          - service_facts.services['your_service_name'].enabled
+        fail_msg: "Service is not enabled."

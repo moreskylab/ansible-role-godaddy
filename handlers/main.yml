@@ -1,0 +1,11 @@
+- name: Restart the web service
+  service:
+    name: nginx
+    state: restarted
+  when: nginx_config_changed
+
+- name: Restart the DNS service
+  service:
+    name: dnsmasq
+    state: restarted
+  when: dns_config_changed

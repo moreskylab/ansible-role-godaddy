@@ -1,0 +1,31 @@
+---
+galaxy_info:
+  role_name: godaddy
+  author: Ankush More
+  description: Ansible role for managing GoDaddy DNS records
+  company: Altgr
+  license: MIT
+  min_ansible_version: 2.9
+  platforms:
+    - name: Ubuntu
+      versions:
+        - bionic
+        - focal
+        - jammy
+    - name: Debian
+      versions:
+        - buster
+        - bullseye
+    - name: EL
+      versions:
+        - 7
+        - 8
+        - 9
+  galaxy_tags:
+    - dns
+    - godaddy
+    - ansible
+  homepage: https://github.com/moreskylab/ansible-role-godaddy
+  issues_url: https://github.com/moreskylab/ansible-role-godaddy/issues
+  source_url: https://github.com/moreskylab/ansible-role-godaddy
+dependencies: []

@@ -1,0 +1,11 @@
+# vars/main.yml
+
+# This file contains variables specific to the role that are not meant to be overridden by users.
+
+api_key: "your_api_key_here"
+api_secret: "your_api_secret_here"
+domain_name: "example.com"
+email: "admin@example.com"
+record_type: "A"
+record_value: "192.0.2.1"
+ttl: 600
